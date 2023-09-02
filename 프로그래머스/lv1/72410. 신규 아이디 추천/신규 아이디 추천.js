@@ -5,11 +5,7 @@ function solution(new_id) {
         .replace(/^\.|(\.$)/g, '') || 'a')
         .substring(0, 15)
         .replace(/\.$/,'');
-
-    
-    const lastWord = new_id[new_id.length-1];
-    while (new_id.length < 3) {
-        new_id += lastWord;
-    }
-    return new_id;
+    const len = new_id.length;
+   
+    return len > 2 ? new_id : new_id + new_id[len-1].repeat(3-len);
 }
