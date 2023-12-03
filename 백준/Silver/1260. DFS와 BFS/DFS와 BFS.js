@@ -6,31 +6,28 @@ let input = fs.readFileSync(filePath)
     .trim()
     .split('\n')
     .map(x => x.trim())
-const initGraph = (linkedInfo,isDfs) => {
+const initGraph = (linkedInfo) => {
     const graph = {};
     for (const info of linkedInfo) {
         const [target, linked] = info.split(' ').map(Number);
         graph[target] = graph[target] ? [...graph[target], linked] : [linked];
         graph[linked] = graph[linked] ? [...graph[linked], target] : [target];
     }
-    Object.values(graph).forEach(neighbors => neighbors.sort((a, b) => isDfs ? b - a : a - b));
+    
+    Object.values(graph).forEach(node => node.sort((a,b) => a - b));
     return graph;
 }
 
-function dfs(graph,start) {
-    const visited = [];
-    const stack = [start];
-    while(stack.length > 0){
-        const node = stack.pop();
-        if(visited.includes(node)) continue;
+function dfs(graph,node,visited = []) {
+    if(!visited.includes(node)){
         visited.push(node);
         const joinNodes = graph[node] ?? [];
         for(const joinNode of joinNodes){
-            if(visited.includes(joinNode)) continue;
-            stack.push(joinNode);
+            if(!visited.includes(joinNode)){
+                dfs(graph,joinNode,visited);
+            }
         }
     }
-
     return visited;
 }
 function bfs(graph,start){
@@ -51,7 +48,9 @@ function bfs(graph,start){
 
 let [graphInfo, ...rest] = input;
 const [vertex, edge, start] = graphInfo.split(' ').map(Number);
-let dfsResult = dfs(initGraph(rest,true),start);
+const graph = initGraph(rest);
+let dfsResult = dfs(graph,start);
 console.log(dfsResult.join(' '))
-let bfsResult = bfs(initGraph(rest,false),start);
+let bfsResult = bfs(graph,start);
 console.log(bfsResult.join(' '))
+
