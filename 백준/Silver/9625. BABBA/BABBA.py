@@ -9,15 +9,6 @@ args = input()
 
 
 def fibonacci(n):
-    if n == 1:
-        print(0, 1)
-        return 
-    elif n == 2:
-        print(1, 1)
-        return
-    elif n == 3:
-        print(1, 2)
-        return
     dp = [0, 1, 1, 2]
     for i in range(4, n + 1):
         dp.append(dp[i - 2] + dp[i - 1])
