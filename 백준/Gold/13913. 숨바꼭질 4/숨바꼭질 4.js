@@ -10,6 +10,7 @@ let input = fs.readFileSync(filePath)
 function solution(nk) {
     const [n, k] = nk.split(' ').map(Number);
     const visited = Array(100001).fill(false);
+    const prev = Array(100001).fill(null);
     const functions = [
         (x) => x + 1,
         (x) => x - 1,
@@ -17,32 +18,32 @@ function solution(nk) {
     ]
 
     const bfs = (startValue) => {
-        const queue = [{
-            value: startValue,
-            log: startValue,
-            count: 0
-        }];
+        const queue = [startValue];
+        visited[startValue] = true;
+
         while (queue.length > 0) {
-            const {value, log, count} = queue.shift();
-            if (visited[value]) {
-                continue;
-            }
+            const value = queue.shift();
+
             if (value === k) {
-                console.log(count);
-                console.log(log);
+                const path = [];
+                let current = value;
+                while (current !== null) {
+                    path.unshift(current);
+                    current = prev[current];
+                }
+                console.log(path.length - 1);
+                console.log(path.join(' '));
                 break;
             }
-            visited[value] = true;
+
             for (const func of functions) {
                 const newValue = func(value);
                 if (newValue < 0 || newValue > 100000 || visited[newValue]) {
                     continue;
                 }
-                queue.push({
-                    value: newValue,
-                    log: log + ' ' + newValue,
-                    count: count + 1
-                });
+                queue.push(newValue);
+                visited[newValue] = true;
+                prev[newValue] = value;
             }
         }
     }
