@@ -30,8 +30,5 @@ fun main() {
             }
         }
     }
-
-    answer.forEachIndexed { idx, el ->
-        println("Case #${idx + 1}: $el")
-    }
+    print(answer.mapIndexed { idx, el -> "Case #${idx + 1}: $el" }.joinToString("\n"))
 }
