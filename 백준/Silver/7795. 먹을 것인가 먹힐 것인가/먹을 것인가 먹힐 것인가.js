@@ -9,27 +9,22 @@ let input = fs.readFileSync(filePath)
 
 function solution([n, ...args]) {
     let i = 0;
-    let binarySearch = (arr, target) => {
-        // arr에 target보다 큰게몇개 존재하는가?
-        let front = 0;
-        let rear = arr.length - 1;
-        let count = 0;
-        while (front <= rear) {
-            if(arr[front] < target){
-                front++
-            } else if(arr[rear] > target){
-                count++
-                rear--
+    const binarySearch = (arr, target) => {
+        let left = 0;
+        let right = arr.length - 1;
+        while (left <= right) {
+            let mid = Math.floor((left + right) / 2);
+            if (arr[mid] <= target) {
+                left = mid + 1;
             } else {
-                // front++
-                // rear--
-                break
+                right = mid - 1;
             }
         }
-        return count;
+        return arr.length - left;
     }
+
     while (n > 0) {
-        let currents = args[i + 1].split(' ').map(Number).sort((a, b) => a-b);
+        let currents = args[i + 1].split(' ').map(Number).sort((a, b) => a - b);
         let targets = args[i + 2].split(' ').map(Number).sort((a, b) => a - b);
         let cnt = 0;
         targets.forEach(target => {
