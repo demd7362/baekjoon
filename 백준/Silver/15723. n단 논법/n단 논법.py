@@ -7,11 +7,9 @@ if os.name == 'nt':  # Windows 환경
 n = int(input())
 
 dic = {}
-reverse_dic = {}
 for i in range(n):
     first, _is, second = input().split()
     dic[first] = second
-    reverse_dic[second] = first
 
 m = int(input())
 
