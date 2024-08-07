@@ -10,6 +10,10 @@ prefix_sum = [0 for _ in range(n + 1)]
 for i in range(1, n + 1):
     prefix_sum[i] = prefix_sum[i - 1] + numbers[i - 1]
 
+answers = []
 for _ in range(m):
     i, j = map(int, input().split())
-    print(prefix_sum[j] - prefix_sum[i - 1])
+    answers.append(str(prefix_sum[j] - prefix_sum[i - 1]))
+
+
+print("\n".join(answers))
