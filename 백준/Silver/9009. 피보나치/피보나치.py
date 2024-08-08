@@ -27,12 +27,11 @@ for _ in range(cnt):
     n = int(input())
     q = deque()
     while n:
-        q = deque()
-        while n > 0:
-            for i in range(len(fibo_list) - 1, -1, -1):
-                if fibo_list[i] <= n:
-                    q.appendleft(str(fibo_list[i]))
-                    n -= fibo_list[i]
-                    break
-        results.append(' '.join(q))
+        for i in range(len(fibo_list) - 1, -1, -1):
+            value = fibo_list[i]
+            if value <= n:
+                q.appendleft(str(fibo_list[i]))
+                n -= fibo_list[i]
+                break
+    results.append(' '.join(q))
 print('\n'.join(results))
