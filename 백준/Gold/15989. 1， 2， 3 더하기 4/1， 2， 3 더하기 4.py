@@ -1,21 +1,8 @@
-import os
-import sys
-
-if os.name == 'nt':  # Windows 환경
-    sys.stdin = open('input.txt', 'r')
-
 n = int(input())
 
 
-dp = [0] * 10002
-dp[0] = 1
-dp[1] = 1
-dp[2] = 2
-dp[3] = 3
-dp[4] = 4
-dp[5] = 5
-dp[6] = 7
-dp[7] = 8
+dp = [0] * 10001
+dp[0:8] = [1, 1, 2, 3, 4, 5, 7, 8]
 
 j = 2
 k = 0
