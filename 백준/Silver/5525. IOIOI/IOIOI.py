@@ -9,22 +9,20 @@ length = int(input())
 word = input()
 
 
-def get_target(n):
-    s = 'I'
-    while n:
-        s += 'O'
-        s += 'I'
-        n -= 1
-    return s
-
-
-target = get_target(n)
-index = word.find(target)
+index = 0
 
 cnt = 0
-while index != -1:
-    word = word[index + 2:]
-    index = word.find(target)
-    cnt += 1
+found = 0
+while index < length:
+    target = word[index:index + 3]
+    if target == 'IOI':
+        index += 2
+        found += 1
+        if found == n:
+            cnt += 1
+            found -= 1
+    else:
+        index += 1
+        found = 0
 
 print(cnt)
