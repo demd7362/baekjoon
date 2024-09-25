@@ -10,20 +10,20 @@ words = [input() for _ in range(n)]
 
 
 def solve(password):
-    left, right = deque(), deque()
+    left, right = [], []
     for char in password:
         if char == '<':
             if left:
-                right.appendleft(left.pop())
+                right.append(left.pop())
         elif char == '>':
             if right:
-                left.append(right.popleft())
+                left.append(right.pop())
         elif char == '-':
             if left:
                 left.pop()
         else:  # 입력 시
             left.append(char)
-    print(''.join(left + right))
+    print(''.join(left + list(reversed(right))))
 
 
 for word in words:
