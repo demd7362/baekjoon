@@ -8,7 +8,6 @@ let input = fs.readFileSync(filePath)
 
 function solution([n, ...args]) {
     args = args.map(arg => arg.split(' '))
-    args.push(['0', '48:00'])
     const teams = {
         '1': {
             score: 0,
@@ -45,24 +44,25 @@ function solution([n, ...args]) {
     let prevWinningTeam = 0
     for (const arg of args) {
         const [teamNo, time] = arg
-        if (teamNo !== '0') {
-            teams[teamNo].score += 1
-        }
+        teams[teamNo].score += 1
         const newWinningTeam = getWinningTeam()
-        if (newWinningTeam !== 0) {
+        if (newWinningTeam !== 0) { // 무승부가 아니라면 startTime 갱신
             teams[newWinningTeam].startTime ??= time
         }
-        if (prevWinningTeam !== newWinningTeam || teamNo === '0') { // 이기고 있던 팀이 바뀜
-            if (prevWinningTeam !== 0) {
+        if (prevWinningTeam !== newWinningTeam) { // 이기고 있던 팀이 바뀜
+            if (prevWinningTeam !== 0) { // 첫번째 순회일땐 0이므로
                 const diff = getTimeDiff(teams[prevWinningTeam].startTime, time) // 여태까지의 시간 diff를 구함
                 teams[prevWinningTeam].minutes += diff // 더함
-                teams[prevWinningTeam].startTime = null
+                teams[prevWinningTeam].startTime = null // startTime 초기화
             }
             prevWinningTeam = newWinningTeam // 이기고 있던 팀 변경
-
         }
-
     }
+    if(prevWinningTeam !== 0){
+        const diff = getTimeDiff(teams[prevWinningTeam].startTime, '48:00')
+        teams[prevWinningTeam].minutes += diff
+    }
+
     console.log(minutesToString(teams['1'].minutes))
     console.log(minutesToString(teams['2'].minutes))
 }
