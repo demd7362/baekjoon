@@ -14,7 +14,15 @@ function solution([nm, ...args]) {
         return acc
     }, {})
     words = [...new Set(words)]
-    words.sort((a,b) => counter[b] - counter[a] || b.length - a.length || a.localeCompare(b))
+    words.sort((a,b) => {
+        if(counter[a] !== counter[b]){
+            return counter[b] - counter[a]
+        }
+        if(a.length !== b.length){
+            return b.length - a.length
+        }
+        return a.localeCompare(b)
+    })
     console.log(words.join('\n'))
 
 
