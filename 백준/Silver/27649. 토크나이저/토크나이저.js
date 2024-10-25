@@ -7,52 +7,50 @@ const input = fs.readFileSync(filePath)
 // .map(x => x.trim());
 
 function solution(input) {
-  const delimiters = new Set(['<', '>', '&&', '||', '(', ')'])
-  let answer = ''
-  let isStreak = false
-  let wasDelimiter = false
-  for (let i = 0; i < input.length; i++) {
-    const char = input[i]
-    const nextChar = char + input[i+1]
-    if(delimiters.has(nextChar)){
-      if(wasDelimiter){
-        answer += `${nextChar} `
-      } else {
-        answer += ` ${nextChar} `
-      }
-      i += 1
-      wasDelimiter = true
-      isStreak = false
-      continue
-    }
-    if (char === ' ') {
-      if (isStreak) {
-        continue
-      }
-      if(wasDelimiter){
-        isStreak = true
-        continue
-      }
-      isStreak = true
-      answer += ' '
-      wasDelimiter = true
-      continue
-    }
-    if (delimiters.has(char)) {
-      if(wasDelimiter){
-        answer += `${char} `
-      } else {
-        answer += ` ${char} `
-      }
-      wasDelimiter = true
-    } else {
-      answer += char
-      wasDelimiter = false
-    }
-    isStreak = false
-
+  const operators = {
+    singleChar: new Set(['<', '>', '(', ')']),
+    doubleChar: new Set(['&&', '||'])
   }
-  console.log(answer.trim())
+
+  let result = ''
+  let lastCharWasOperator = false
+  let isRepeatedSpace = false
+
+  for (let i = 0; i < input.length; i++) {
+    const currentChar = input[i]
+    const nextTwoChars = currentChar + input[i+1]
+
+    // 두 글자 연산자 처리 (&&, ||)
+    if (operators.doubleChar.has(nextTwoChars)) {
+      result += lastCharWasOperator ? nextTwoChars : ` ${nextTwoChars}`
+      result += ' '
+      i++
+      lastCharWasOperator = true
+      isRepeatedSpace = false
+      continue
+    }
+
+    if (currentChar === ' ') {
+      if (!isRepeatedSpace && !lastCharWasOperator) {
+        result += ' '
+      }
+      isRepeatedSpace = true
+      lastCharWasOperator = true
+      continue
+    }
+
+    if (operators.singleChar.has(currentChar)) {
+      result += lastCharWasOperator ? currentChar : ` ${currentChar}`
+      result += ' '
+      lastCharWasOperator = true
+    } else {
+      result += currentChar
+      lastCharWasOperator = false
+    }
+    isRepeatedSpace = false
+  }
+
+  console.log(result.trim())
 }
 
 solution(input)
