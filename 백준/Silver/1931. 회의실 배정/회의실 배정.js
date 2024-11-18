@@ -11,17 +11,22 @@ function solution([t, ...args]) {
     const [start, end] = arg.split(' ').map(Number)
     return {start, end}
   })
-  times.sort((a, b) => a.end - b.end || a.start - b.start)
+  times.sort((a, b) => {
+    if(a.end === b.end){
+      return a.start - b.start
+    }
+    return a.end - b.end
+  })
   let lastEnd = times[0].end
-  const results = [times[0]]
+  let result = 1
   for (let i = 1; i < times.length; i++) {
     const current = times[i]
     if (current.start >= lastEnd) {
-      results.push(current)
+      result ++
       lastEnd = current.end
     }
   }
-  console.log(results.length)
+  console.log(result)
 }
 
 solution(input)
