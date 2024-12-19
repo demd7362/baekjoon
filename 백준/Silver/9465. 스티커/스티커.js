@@ -23,9 +23,10 @@ function solve(n, board) {
   for (let i = 1; i < n; i++) {
     dp[0][i] = Math.max(dp[1][i - 1] + board[0][i], dp[2][i - 1] + board[0][i]) // 위에서 시작
     dp[1][i] = Math.max(dp[0][i - 1] + board[1][i], dp[2][i - 1] + board[1][i])  // 밑에서 시작
-    dp[2][i] = Math.max(dp[0][i - 1], dp[1][i - 1]) // 안고름 
+    dp[2][i] = Math.max(dp[0][i - 1], dp[1][i - 1]) // 안고름
   }
-  console.log(Math.max(...dp.flat()))
+
+  console.log(Math.max(...dp.map(x => x[n - 1])))
 }
 
 
