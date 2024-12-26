@@ -29,23 +29,23 @@ function solution([n, potionPrices, ...args]) {
     }
     return potionPrices
   }
-  function dfs(currentPrices, visited, totalCost) {
-    if (visited.every(v => v)) {
-      min = Math.min(min, totalCost);
+
+  function dfs(depth, currentPrices, visited, sum) {
+    if (depth === n) {
+      min = Math.min(min, sum);
       return;
     }
 
     for (let i = 0; i < n; i++) {
       if (visited[i]) continue;
-
       visited[i] = true;
       const newPrices = handleDiscount(currentPrices, i);
-      dfs(newPrices, visited, totalCost + currentPrices[i]);
+      dfs(depth + 1, newPrices, visited, sum + newPrices[i]);
       visited[i] = false;
     }
   }
 
-  dfs(potionPrices, Array(n).fill(false), 0);
+  dfs(0,potionPrices, Array(n).fill(false),0);
   console.log(min)
 
 }
