@@ -15,15 +15,13 @@ function solution([n, ...args]) {
   function isTriangle(a, b, max) {
     return a + b > max
   }
-
-  let max = -1
-  for (let i = 0; i < n - 2; i++) {
-    let result = isTriangle(digits[i], digits[i + 1], digits[i + 2])
+  for (let i = n - 1; i >= 2; i--) {
+    let result = isTriangle(digits[i - 2], digits[i - 1], digits[i])
     if (result) {
-      max = Math.max(digits[i] + digits[i + 1] + digits[i + 2])
+      return digits[i] + digits[i - 1] + digits[i - 2]
     }
   }
-  console.log(max)
+  return -1
 }
 
-solution(input)
+console.log(solution(input))
