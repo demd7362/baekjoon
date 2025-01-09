@@ -9,16 +9,13 @@ const input = fs.readFileSync(filePath)
 
 
 function solution([n, arg]) {
-  n = +n
   let digits = arg.split(' ').map(Number)
   let sorted = [...digits].sort((a, b) => a - b)
-  let visited = Array(1001).fill(0)
-  let answer = []
-  for(let i = 0; i < n; i++){
-    let index = sorted.findIndex(x => x === digits[i])
-    answer.push(index + visited[digits[i]])
-    visited[digits[i]]++
-  }
+  let indexes = sorted.reduce((acc,val, index) => {
+    acc[val] ??= index
+    return acc
+  }, {})
+  let answer = digits.map(digit => indexes[digit]++)
   console.log(answer.join(' '))
 }
 
