@@ -7,24 +7,24 @@ const input = fs.readFileSync(filePath)
 // .map(x => x.trim())
 
 function solution(n) {
-  n = +n
-  // 0 1 2 3 4 5 6 7 8 9 10 20 21 30 31 32 40 41 42 43
-  let result = []
-  let dfs = (depth, value) => {
+  n = +n;
+  let result = [];
+
+  const dfs = (depth, value, last) => {
     if (depth >= 1) {
-      result.push(+value)
+      result.push(+value);
     }
-    for (let i = 0; i <= 9; i++) {
-      if (i > value[0] || value === '') {
-        dfs(depth + 1, i + value)
-      }
+    for (let i = last - 1; i >= 0; i--) {
+      dfs(depth + 1, value + i, i);
     }
+  };
+
+  for (let i = 9; i >= 0; i--) {
+    dfs(1, i.toString(), i);
   }
 
-  dfs(0, '')
-  result.sort((a, b) => a - b)
-  console.log(result[n] ?? -1)
-
+  result.sort((a, b) => a - b);
+  console.log(result[n] ?? -1);
 }
 
 solution(input)
